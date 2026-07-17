@@ -65,11 +65,22 @@ function ProductListContent() {
   const { data: categoryData, isLoading: categoryLoading } = useProductsByCategory(category, { limit: 20 });
 
   const isLoading = productsLoading || searchLoading || categoryLoading;
-  const products = category
+  let products = category
     ? categoryData?.products ?? []
     : searchQuery
     ? searchData?.products ?? []
     : productsData?.products ?? [];
+
+  if (category && searchQuery) {
+    const query = searchQuery.toLowerCase();
+    products = products.filter(
+      (product) =>
+        product.title.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query) ||
+        (product.description && product.description.toLowerCase().includes(query)) ||
+        (product.tags && product.tags.some((tag: string) => tag.toLowerCase().includes(query)))
+    );
+  }
 
   if (isError) {
     return (
@@ -88,7 +99,9 @@ function ProductListContent() {
   }
 
   const hasSearched = searchQuery || category;
-  const emptyMessage = hasSearched
+  const emptyMessage = searchQuery && category
+    ? `No products found matching "${searchQuery}" in category "${category}"`
+    : hasSearched
     ? `No products found for "${searchQuery || category}"`
     : "No products available";
 
