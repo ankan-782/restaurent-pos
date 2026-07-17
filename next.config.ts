@@ -1,9 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-	logging: {
-		browserToTerminal: true,
-	},
+  logging: {
+    browserToTerminal: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.dummyjson.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

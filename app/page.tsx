@@ -1,65 +1,144 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { Suspense } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { ProductGrid } from "@/components/product/ProductGrid";
+import { ProductSearch } from "@/components/product/ProductSearch";
+import { Skeleton } from "@/components/ui/Skeleton";
+import { useProducts } from "@/hooks/useProducts";
+import { useCategories } from "@/hooks/useProducts";
+import { useProductSearch } from "@/hooks/useProducts";
+import { useProductsByCategory } from "@/hooks/useProducts";
+
+interface Category {
+  slug: string;
+  name: string;
+  url: string;
+}
+
+function CategoriesFilter() {
+  const { data: categoriesData } = useCategories();
+  const categories: Category[] = categoriesData || [];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <ProductSearch categories={categories} />
+  );
+}
+
+function CategoriesFilterSkeleton() {
+  return (
+    <div className="animate-pulse flex flex-col sm:flex-row gap-3 w-full">
+      <Skeleton className="flex-1 h-10" />
+      <Skeleton className="w-full sm:w-64 h-10" />
+    </div>
+  );
+}
+
+function ProductGridSkeleton() {
+  const skeletons = Array.from({ length: 8 }, (_, i) => (
+    <div key={i} className="card-marketing flex flex-col">
+      <Skeleton className="aspect-square w-full mb-4 rounded-md" />
+      <Skeleton className="h-5 w-3/4 mb-2" />
+      <Skeleton className="h-4 w-1/2 mb-4" />
+      <div className="flex items-center justify-between mt-auto">
+        <Skeleton className="h-6 w-24" />
+        <Skeleton className="h-10 w-24" />
+      </div>
+    </div>
+  ));
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      {skeletons}
+    </div>
+  );
+}
+
+function ProductListContent() {
+  const searchParams = useSearchParams();
+  const searchQuery = searchParams.get("q") || "";
+  const category = searchParams.get("category") || "";
+
+  const { data: productsData, isLoading: productsLoading, isError } = useProducts({ limit: 20 });
+  const { data: searchData, isLoading: searchLoading } = useProductSearch(searchQuery, { limit: 20 });
+  const { data: categoryData, isLoading: categoryLoading } = useProductsByCategory(category, { limit: 20 });
+
+  const isLoading = productsLoading || searchLoading || categoryLoading;
+  const products = category
+    ? categoryData?.products ?? []
+    : searchQuery
+    ? searchData?.products ?? []
+    : productsData?.products ?? [];
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+        <div className="w-16 h-16 rounded-full bg-error-soft flex items-center justify-center mb-4">
+          <svg className="w-8 h-8 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <h3 className="text-display-sm font-semibold text-ink mb-2">Failed to load products</h3>
+        <p className="text-body text-body-md max-w-sm text-center">
+          Something went wrong while fetching products. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
+  const hasSearched = searchQuery || category;
+  const emptyMessage = hasSearched
+    ? `No products found for "${searchQuery || category}"`
+    : "No products available";
+
+  return <ProductGrid products={products} isLoading={isLoading} isEmpty={products.length === 0} emptyMessage={emptyMessage} />;
+}
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <header className="nav-bar border-b border-hairline sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-sm lg:px-lg h-full flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
+              <svg className="w-5 h-5 text-on-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            <span className="text-display-sm font-semibold text-ink">POS</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-1">
+            <Link href="/" className="nav-link">Products</Link>
+            <Link href="/cart" className="nav-link">Cart</Link>
+          </nav>
+        </div>
+      </header>
+
+      <main className="flex-1 max-w-7xl mx-auto w-full px-sm lg:px-lg py-8">
+        <div className="mb-8">
+          <h1 className="text-display-lg font-semibold text-ink tracking-tight mb-2">New Order</h1>
+          <p className="text-body text-body-md">Select products to add to the order</p>
+        </div>
+
+        <Suspense fallback={<CategoriesFilterSkeleton />}>
+          <CategoriesFilter />
+        </Suspense>
+
+        <div className="mt-6">
+          <Suspense fallback={<ProductGridSkeleton />}>
+            <ProductListContent />
+          </Suspense>
         </div>
       </main>
+
+      <footer className="border-t border-hairline mt-12">
+        <div className="max-w-7xl mx-auto px-sm lg:px-lg py-8">
+          <p className="text-body text-body-sm text-center">
+            Restaurant POS - New Order Module Assessment
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
