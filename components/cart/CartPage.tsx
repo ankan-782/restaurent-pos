@@ -292,7 +292,7 @@ function CartItem({ item }: { item: { product: { id: number; title: string; pric
   const lineTotal = product.price * quantity;
 
   return (
-    <div className="bg-canvas rounded-xl border border-hairline p-4 transition-shadow hover:shadow-level-2">
+    <div className="bg-canvas rounded-xl border border-hairline p-4">
       <div className="flex gap-4">
         {/* Product Image */}
         <div className="relative w-20 h-20 flex-shrink-0">

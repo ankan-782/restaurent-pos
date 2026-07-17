@@ -140,7 +140,7 @@ export function ProductSearch({ categories }: ProductSearchProps) {
               <SelectTrigger id="category-filter" className="flex items-center justify-between pl-11 pr-4 h-11 cursor-pointer">
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
-              <SelectContent className="w-full">
+              <SelectContent>
                 <SelectItem value="">All Categories</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.slug} value={category.slug}>
