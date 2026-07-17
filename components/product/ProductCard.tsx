@@ -79,81 +79,81 @@ export function ProductCard({ product, isLoading }: ProductCardProps) {
 
   return (
     <Card className="flex flex-col h-full transition-all duration-200 hover:shadow-level-4 hover:-translate-y-0.5 group overflow-hidden">
-      <Link href={`/products/${product.id}`} className="flex flex-col flex-1 group">
-        {/* Product Image */}
-        <div className="relative aspect-square overflow-hidden bg-canvas-soft w-full">
-          {product.thumbnail ? (
-            <Image
-              src={product.thumbnail}
-              alt={product.title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 599px) 100vw, (max-width: 959px) 50vw, (max-width: 1199px) 33vw, 25vw"
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full text-mute">
-              No Image
-            </div>
-          )}
+      {/* Product Image - Clickable Link */}
+      <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden bg-canvas-soft w-full">
+        {product.thumbnail ? (
+          <Image
+            src={product.thumbnail}
+            alt={product.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 599px) 100vw, (max-width: 959px) 50vw, (max-width: 1199px) 33vw, 25vw"
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-mute">
+            No Image
+          </div>
+        )}
 
-          {/* Out of Stock Overlay */}
-          {isOutOfStock && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
-              <span className="bg-error text-on-primary text-body-sm font-medium px-4 py-2 rounded-md">
-                Out of Stock
-              </span>
-            </div>
-          )}
+        {/* Out of Stock Overlay */}
+        {isOutOfStock && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+            <span className="bg-error text-on-primary text-body-sm font-medium px-4 py-2 rounded-md">
+              Out of Stock
+            </span>
+          </div>
+        )}
 
-          {/* Discount Badge */}
-          {discountPercent > 0 && (
-            <span className="absolute top-3 left-3 bg-error text-on-primary text-caption font-medium px-2 py-1 rounded-sm z-10">
-              -{discountPercent}%
+        {/* Discount Badge */}
+        {discountPercent > 0 && (
+          <span className="absolute top-3 left-3 bg-error text-on-primary text-caption font-medium px-2 py-1 rounded-sm z-10">
+            -{discountPercent}%
+          </span>
+        )}
+      </Link>
+
+      {/* Product Info */}
+      <CardContent className="flex-1 flex flex-col p-4">
+        {/* Category Tag */}
+        <p className="text-caption text-mute mb-1 uppercase tracking-wide">
+          {product.category}
+        </p>
+
+        {/* Product Title - Clickable Link */}
+        <Link href={`/products/${product.id}`} className="block group/title mb-3">
+          <h3 className="text-body-md font-medium line-clamp-2 text-ink group-hover/title:text-primary hover:text-primary transition-colors">
+            {product.title}
+          </h3>
+        </Link>
+
+        {/* Price */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-display-sm font-semibold text-ink">
+            {formatCurrency(product.price)}
+          </span>
+          {originalPrice && (
+            <span className="text-body-sm text-mute line-through">
+              {formatCurrency(originalPrice)}
             </span>
           )}
         </div>
 
-        {/* Product Info */}
-        <CardContent className="flex-1 flex flex-col p-4">
-          {/* Category Tag */}
-          <p className="text-caption text-mute mb-1 uppercase tracking-wide">
-            {product.category}
-          </p>
-
-          {/* Product Title */}
-          <h3 className="text-body-md font-medium line-clamp-2 mb-3 text-ink group-hover:text-primary transition-colors">
-            {product.title}
-          </h3>
-
-          {/* Price */}
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-display-sm font-semibold text-ink">
-              {formatCurrency(product.price)}
-            </span>
-            {originalPrice && (
-              <span className="text-body-sm text-mute line-through">
-                {formatCurrency(originalPrice)}
-              </span>
-            )}
-          </div>
-
-          {/* Rating & Stock */}
-          <div className="flex items-center gap-3 text-body-sm text-mute mb-4 mt-auto">
-            <span className="flex items-center gap-1">
-              <svg className="h-4 w-4 text-warning fill-current" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-              {product.rating.toFixed(1)}
-            </span>
-            <span className="flex items-center gap-1">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-              {product.stock > 0 ? `Stock: ${product.stock}` : 'Out of Stock'}
-            </span>
-          </div>
-        </CardContent>
-      </Link>
+        {/* Rating & Stock */}
+        <div className="flex items-center gap-3 text-body-sm text-mute mb-4 mt-auto">
+          <span className="flex items-center gap-1">
+            <svg className="h-4 w-4 text-warning fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            {product.rating.toFixed(1)}
+          </span>
+          <span className="flex items-center gap-1">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+            {product.stock > 0 ? `Stock: ${product.stock}` : 'Out of Stock'}
+          </span>
+        </div>
+      </CardContent>
 
       {/* Footer - Quantity Controls or Add to Cart */}
       <CardFooter className="p-4 pt-0">

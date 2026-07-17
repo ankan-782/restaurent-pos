@@ -334,7 +334,7 @@ function CartItem({ item }: { item: { product: { id: number; title: string; pric
       <div className="w-full mt-4 pt-4 border-t border-hairline">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex items-center border border-hairline rounded-lg">
+            <div className="flex items-center border border-hairline rounded-lg bg-canvas overflow-hidden">
               <button
                 onClick={handleDecrement}
                 disabled={quantity <= 1}

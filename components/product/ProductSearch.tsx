@@ -185,17 +185,15 @@ export function ProductSearch({ categories }: ProductSearchProps) {
               </button>
             </span>
           )}
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
             onClick={clearFilters}
-            className="ml-auto whitespace-nowrap gap-1.5 cursor-pointer text-body-sm hover:text-error h-8"
+            className="ml-auto whitespace-nowrap inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
             aria-label="Clear all filters"
           >
             <RotateCcw className="h-3.5 w-3.5" />
             <span>Clear All</span>
-          </Button>
+          </button>
         </div>
       )}
     </div>

@@ -10,6 +10,7 @@ import { useCategories } from "@/hooks/useProducts";
 import { useProductSearch } from "@/hooks/useProducts";
 import { useProductsByCategory } from "@/hooks/useProducts";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 interface Category {
   slug: string;
@@ -130,13 +131,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className="border-t border-hairline mt-12">
-        <div className="max-w-7xl mx-auto px-sm lg:px-lg py-8">
-          <p className="text-body text-body-sm text-center">
-            Restaurant POS - New Order Module Assessment
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

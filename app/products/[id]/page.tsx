@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useProduct } from "@/hooks/useProducts";
@@ -121,7 +122,7 @@ export default function ProductDetailsPage() {
         {/* Back navigation */}
         <button
           onClick={() => router.back()}
-          className="inline-flex items-center gap-2 text-body-sm font-medium text-body hover:text-ink mb-6 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer mb-6 -ml-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to list
@@ -154,24 +155,26 @@ export default function ProductDetailsPage() {
 
             {/* Thumbnails list */}
             {product.images && product.images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto pb-2">
+              <div className="flex gap-2 overflow-x-auto p-2 -m-2">
                 {product.images.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveImageIndex(index)}
-                    className={`relative w-20 h-20 rounded-lg overflow-hidden border bg-canvas flex-shrink-0 cursor-pointer transition-all ${
+                    className={`relative w-20 h-20 rounded-lg border bg-canvas flex-shrink-0 cursor-pointer transition-all ${
                       index === activeImageIndex
-                        ? "border-primary ring-2 ring-primary/20"
+                        ? "border-primary ring-2 ring-primary/20 shadow-md"
                         : "border-hairline hover:border-hairline-strong"
                     }`}
                   >
-                    <Image
-                      src={image}
-                      alt={`${product.title} view ${index + 1}`}
-                      fill
-                      className="object-cover p-1"
-                      sizes="80px"
-                    />
+                    <div className="absolute inset-0 rounded-[inherit] overflow-hidden">
+                      <Image
+                        src={image}
+                        alt={`${product.title} view ${index + 1}`}
+                        fill
+                        className="object-cover p-1"
+                        sizes="80px"
+                      />
+                    </div>
                   </button>
                 ))}
               </div>
@@ -346,13 +349,7 @@ export default function ProductDetailsPage() {
         )}
       </main>
 
-      <footer className="border-t border-hairline mt-16">
-        <div className="max-w-7xl mx-auto px-sm lg:px-lg py-8">
-          <p className="text-body text-body-sm text-center">
-            Restaurant POS - New Order Module Assessment
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
