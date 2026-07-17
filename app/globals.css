@@ -110,6 +110,7 @@
   --text-code: 13px;
   --text-button-md: 14px;
   --text-button-lg: 16px;
+  --text-button-sm: 13px;
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
@@ -126,6 +127,7 @@
   --leading-code: 20px;
   --leading-button-md: 20px;
   --leading-button-lg: 24px;
+  --leading-button-sm: 18px;
 
   --tracking-display-xl: -2.4px;
   --tracking-display-lg: -1.28px;
@@ -139,6 +141,7 @@
   --tracking-code: 0px;
   --tracking-button-md: 0px;
   --tracking-button-lg: 0px;
+  --tracking-button-sm: 0px;
 
   --shadow-level-0: none;
   --shadow-level-1: 0 0 0 1px #00000014 inset;
@@ -194,36 +197,46 @@
 }
 
 @layer components {
+  .nav-link {
+    @apply text-body text-sm rounded-full px-xs py-1 transition-colors hover:bg-canvas-soft cursor-pointer;
+  }
+
+  .input-field {
+    @apply w-full bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-10 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-text;
+  }
+
   .btn-primary {
-    @apply bg-primary text-on-primary text-button-lg rounded-pill px-sm h-12 transition-colors hover:bg-ink/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer bg-primary text-white hover:bg-ink/90 h-11 px-sm text-button-md;
   }
   .btn-secondary {
-    @apply bg-canvas text-ink text-button-lg rounded-pill px-sm h-12 border border-hairline transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer border border-hairline bg-canvas text-ink hover:bg-canvas-soft h-11 px-sm text-button-md;
   }
   .btn-primary-sm {
-    @apply bg-primary text-on-primary text-button-md rounded-pill px-xs h-8 transition-colors hover:bg-ink/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer bg-primary text-white hover:bg-ink/90 h-8 px-xs text-button-sm;
   }
   .btn-secondary-sm {
-    @apply bg-canvas text-ink text-button-md rounded-pill px-xs h-8 border border-hairline transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer border border-hairline bg-canvas text-ink hover:bg-canvas-soft h-8 px-xs text-button-sm;
   }
+
   .tab-ghost {
-    @apply bg-canvas text-ink text-body-sm rounded-pill-sm px-md transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-pill-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-pointer bg-canvas text-ink hover:bg-canvas-soft px-md text-sm;
   }
+
   .icon-button-circular {
-    @apply bg-canvas text-ink border border-hairline rounded-full p-2 transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-full border border-hairline bg-canvas text-ink p-2 transition-colors hover:bg-canvas-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 cursor-pointer;
   }
-  .input-field {
-    @apply bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-10 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
-  }
+
   .input-field-sm {
-    @apply bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-8 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+    @apply bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-8 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-text;
   }
   .input-field-lg {
-    @apply bg-canvas text-ink border border-hairline text-body-md rounded-sm px-sm h-12 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+    @apply bg-canvas text-ink border border-hairline text-body-md rounded-sm px-sm h-12 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-text;
   }
+
   .badge-secondary {
-    @apply bg-canvas-soft text-body text-caption rounded-full px-xs;
+    @apply inline-flex items-center rounded-full border px-xs py-0.5 text-caption font-medium transition-colors bg-canvas-soft text-body;
   }
+
   .card-marketing {
     @apply bg-canvas text-ink text-body-md rounded-md p-lg shadow-level-3;
   }
@@ -243,7 +256,7 @@
     @apply bg-canvas text-ink text-sm h-16 px-sm lg:px-lg;
   }
   .nav-link {
-    @apply text-body text-sm rounded-full px-xs py-1 transition-colors hover:bg-canvas-soft;
+    @apply text-body text-sm rounded-full px-xs py-1 transition-colors hover:bg-canvas-soft cursor-pointer;
   }
   .nav-cta-signup {
     @apply bg-primary text-on-primary text-sm font-medium rounded-sm px-xs h-7;
@@ -284,4 +297,100 @@
   .data-table-body {
     @apply text-sm px-xs py-1 border-b border-hairline;
   }
+
+  /* Add cursor pointer to clickable elements */
+  button:not(:disabled),
+  a[href],
+  [role="button"]:not(:disabled),
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  /* Disable cursor for disabled elements */
+  button:disabled,
+  [role="button"]:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer utilities {
+  .font-sans { font-family: var(--font-sans); }
+  .font-mono { font-family: var(--font-mono); }
+  .font-heading { font-family: var(--font-heading); }
+
+  .text-display-xl { font-size: var(--text-display-xl); line-height: var(--leading-display-xl); letter-spacing: var(--tracking-display-xl); font-weight: var(--font-weight-semibold); }
+  .text-display-lg { font-size: var(--text-display-lg); line-height: var(--leading-display-lg); letter-spacing: var(--tracking-display-lg); font-weight: var(--font-weight-semibold); }
+  .text-display-md { font-size: var(--text-display-md); line-height: var(--leading-display-md); letter-spacing: var(--tracking-display-md); font-weight: var(--font-weight-semibold); }
+  .text-display-sm { font-size: var(--text-display-sm); line-height: var(--leading-display-sm); letter-spacing: var(--tracking-display-sm); font-weight: var(--font-weight-semibold); }
+  .text-body-lg { font-size: var(--text-body-lg); line-height: var(--leading-body-lg); letter-spacing: var(--tracking-body-lg); font-weight: var(--font-weight-normal); }
+  .text-body-md { font-size: var(--text-body-md); line-height: var(--leading-body-md); letter-spacing: var(--tracking-body-md); font-weight: var(--font-weight-normal); }
+  .text-body-md-strong { font-size: var(--text-body-md); line-height: var(--leading-body-md); letter-spacing: var(--tracking-body-md); font-weight: var(--font-weight-medium); }
+  .text-body-sm { font-size: var(--text-body-sm); line-height: var(--leading-body-sm); letter-spacing: var(--tracking-body-sm); font-weight: var(--font-weight-normal); }
+  .text-body-sm-strong { font-size: var(--text-body-sm); line-height: var(--leading-body-sm); letter-spacing: var(--tracking-body-sm); font-weight: var(--font-weight-medium); }
+  .text-caption { font-size: var(--text-caption); line-height: var(--leading-caption); letter-spacing: var(--tracking-caption); font-weight: var(--font-weight-normal); }
+  .text-caption-mono { font-size: var(--text-caption-mono); line-height: var(--leading-caption); letter-spacing: var(--tracking-caption-mono); font-weight: var(--font-weight-normal); font-family: var(--font-mono); }
+  .text-code { font-size: var(--text-code); line-height: var(--leading-code); letter-spacing: var(--tracking-code); font-weight: var(--font-weight-normal); font-family: var(--font-mono); }
+  .text-button-md { font-size: var(--text-button-md); line-height: var(--leading-button-md); letter-spacing: var(--tracking-button-md); font-weight: var(--font-weight-medium); }
+  .text-button-lg { font-size: var(--text-button-lg); line-height: var(--leading-button-lg); letter-spacing: var(--tracking-button-lg); font-weight: var(--font-weight-medium); }
+  .text-button-sm { font-size: var(--text-button-sm); line-height: var(--leading-button-sm); letter-spacing: var(--tracking-button-sm); font-weight: var(--font-weight-medium); }
+
+  .rounded-none { border-radius: var(--radius-none); }
+  .rounded-xs { border-radius: var(--radius-xs); }
+  .rounded-sm { border-radius: var(--radius-sm); }
+  .rounded-md { border-radius: var(--radius-md); }
+  .rounded-lg { border-radius: var(--radius-lg); }
+  .rounded-xl { border-radius: var(--radius-xl); }
+  .rounded-2xl { border-radius: var(--radius-2xl); }
+  .rounded-3xl { border-radius: var(--radius-3xl); }
+  .rounded-4xl { border-radius: var(--radius-4xl); }
+  .rounded-pill-sm { border-radius: var(--radius-pill-sm); }
+  .rounded-pill { border-radius: var(--radius-pill); }
+  .rounded-full { border-radius: var(--radius-full); }
+
+  .shadow-level-0 { box-shadow: var(--shadow-level-0); }
+  .shadow-level-1 { box-shadow: var(--shadow-level-1); }
+  .shadow-level-2 { box-shadow: var(--shadow-level-2); }
+  .shadow-level-3 { box-shadow: var(--shadow-level-3); }
+  .shadow-level-4 { box-shadow: var(--shadow-level-4); }
+  .shadow-level-5 { box-shadow: var(--shadow-level-5); }
+
+  .animate-accordion-down { animation: var(--animate-accordion-down); }
+  .animate-accordion-up { animation: var(--animate-accordion-up); }
+  .animate-fade-in { animation: var(--animate-fade-in); }
+  .animate-slide-up { animation: var(--animate-slide-up); }
+  .animate-slide-down { animation: var(--animate-slide-down); }
+  .animate-scale-in { animation: var(--animate-scale-in); }
+
+  .font-sans { font-family: var(--font-sans); }
+  .font-mono { font-family: var(--font-mono); }
+  .font-heading { font-family: var(--font-heading); }
+}
+
+/* Force hand pointer for all interactive elements globally */
+a,
+button,
+select,
+summary,
+[role="button"],
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Ensure not-allowed cursor for disabled controls */
+button:disabled,
+[role="button"]:disabled,
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
+/* Hide browser native clear button for input type="search" */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
 }

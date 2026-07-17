@@ -35,7 +35,7 @@ export function ProductGrid({
           </svg>
         </div>
         <h3 className="text-display-sm font-semibold text-ink mb-2">No products found</h3>
-        <p className="text-body text-body-md max-w-sm text-center">
+        <p className="text-body text-body-md max-w-[24rem] text-center">
           {emptyMessage}
         </p>
       </div>

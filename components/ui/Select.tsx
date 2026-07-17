@@ -16,7 +16,7 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "input-field w-full justify-between",
+      "flex items-center justify-between input-field w-full cursor-pointer",
       error && "border-error focus-visible:ring-error",
       className
     )}

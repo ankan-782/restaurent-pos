@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductSearch } from "@/components/product/ProductSearch";
@@ -10,6 +9,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { useCategories } from "@/hooks/useProducts";
 import { useProductSearch } from "@/hooks/useProducts";
 import { useProductsByCategory } from "@/hooks/useProducts";
+import { Header } from "@/components/layout/Header";
 
 interface Category {
   slug: string;
@@ -80,7 +80,7 @@ function ProductListContent() {
           </svg>
         </div>
         <h3 className="text-display-sm font-semibold text-ink mb-2">Failed to load products</h3>
-        <p className="text-body text-body-md max-w-sm text-center">
+        <p className="text-body text-body-md max-w-[24rem] text-center">
           Something went wrong while fetching products. Please try again later.
         </p>
       </div>
@@ -98,23 +98,8 @@ function ProductListContent() {
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="nav-bar border-b border-hairline sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-sm lg:px-lg h-full flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
-              <svg className="w-5 h-5 text-on-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
-            </div>
-            <span className="text-display-sm font-semibold text-ink">POS</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-1">
-            <Link href="/" className="nav-link">Products</Link>
-            <Link href="/cart" className="nav-link">Cart</Link>
-          </nav>
-        </div>
-      </header>
-
+      <Header />
+      
       <main className="flex-1 max-w-7xl mx-auto w-full px-sm lg:px-lg py-8">
         <div className="mb-8">
           <h1 className="text-display-lg font-semibold text-ink tracking-tight mb-2">New Order</h1>
