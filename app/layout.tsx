@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
+import { UndoToast } from "@/components/ui/UndoToast";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -44,7 +45,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <UndoToast />
+        </Providers>
       </body>
     </html>
   );

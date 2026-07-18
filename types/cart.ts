@@ -9,6 +9,7 @@ export interface CartState {
   items: CartItem[];
   appliedCoupon: CouponCode | null;
   discountAmount: number;
+  lastRemovedItem?: CartItem | null;
 }
 
 export type CouponCode = "SAVE10" | "SAVE20" | "WELCOME";

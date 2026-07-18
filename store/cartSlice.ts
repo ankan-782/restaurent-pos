@@ -8,6 +8,7 @@ const initialState: CartState = {
   items: [],
   appliedCoupon: null,
   discountAmount: 0,
+  lastRemovedItem: null,
 };
 
 function calculateDiscount(subtotal: number, couponCode: CouponCode | null): number {
@@ -47,6 +48,7 @@ const cartSlice = createSlice({
       if (existingItem) {
         const newQuantity = existingItem.quantity + quantity;
         if (newQuantity <= 0) {
+          state.lastRemovedItem = existingItem;
           state.items = state.items.filter((item) => item.product.id !== product.id);
         } else {
           existingItem.quantity = newQuantity;
@@ -56,6 +58,10 @@ const cartSlice = createSlice({
       }
     },
     removeItem: (state, action: PayloadAction<number>) => {
+      const existing = state.items.find((item) => item.product.id === action.payload);
+      if (existing) {
+        state.lastRemovedItem = existing;
+      }
       state.items = state.items.filter((item) => item.product.id !== action.payload);
     },
     updateQuantity: (state, action: PayloadAction<{ productId: number; quantity: number }>) => {
@@ -63,6 +69,7 @@ const cartSlice = createSlice({
       const item = state.items.find((i) => i.product.id === productId);
       if (item) {
         if (quantity <= 0) {
+          state.lastRemovedItem = item;
           state.items = state.items.filter((i) => i.product.id !== productId);
         } else {
           item.quantity = quantity;
@@ -85,6 +92,19 @@ const cartSlice = createSlice({
       state.items = action.payload.items;
       state.appliedCoupon = action.payload.appliedCoupon;
       state.discountAmount = action.payload.discountAmount;
+      state.lastRemovedItem = action.payload.lastRemovedItem || null;
+    },
+    undoRemove: (state) => {
+      if (state.lastRemovedItem) {
+        const existing = state.items.find((i) => i.product.id === state.lastRemovedItem!.product.id);
+        if (!existing) {
+          state.items.push(state.lastRemovedItem);
+        }
+        state.lastRemovedItem = null;
+      }
+    },
+    clearLastRemovedItem: (state) => {
+      state.lastRemovedItem = null;
     },
   },
   selectors: {
@@ -97,6 +117,7 @@ const cartSlice = createSlice({
     selectOrderSummary: (state) =>
       calculateOrderSummary(state.items, state.appliedCoupon),
     selectIsEmpty: (state) => state.items.length === 0,
+    selectLastRemovedItem: (state) => state.lastRemovedItem,
   },
 });
 
@@ -108,6 +129,8 @@ export const {
   applyCoupon,
   removeCoupon,
   setCartFromStorage,
+  undoRemove,
+  clearLastRemovedItem,
 } = cartSlice.actions;
 
 export const {
@@ -118,6 +141,7 @@ export const {
   selectDiscountAmount,
   selectOrderSummary,
   selectIsEmpty,
+  selectLastRemovedItem,
 } = cartSlice.selectors;
 
 export default cartSlice.reducer;

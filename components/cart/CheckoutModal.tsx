@@ -1,8 +1,9 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
-import { clearCart, selectItems, selectOrderSummary } from "@/store/cartSlice";
+import { clearCart, selectItems, selectOrderSummary, setCartFromStorage } from "@/store/cartSlice";
 import { api } from "@/lib/api";
+import type { CouponCode } from "@/types/cart";
 import { Button } from "@/components/ui/Button";
 import { formatCurrency } from "@/lib/utils";
 import { X, CheckCircle, Loader2, Shield, Truck } from "lucide-react";
@@ -33,21 +34,36 @@ export function CheckoutModal({ isOpen, onClose, items: propItems, orderSummary:
     setIsSubmitting(true);
     setError("");
 
+    // Back up the cart state for optimistic UI rollback
+    const savedCartState = {
+      items: [...storeItems],
+      appliedCoupon: (appliedCoupon as CouponCode | null) || null,
+      discountAmount: discount || 0,
+      lastRemovedItem: null,
+    };
+
+    // Optimistically update UI to success and clear cart
+    setSuccess(true);
+    dispatch(clearCart());
+
     try {
-      const response = await api.addToCart(1, items.map(item => ({
+      await api.addToCart(1, savedCartState.items.map(item => ({
         id: item.product.id,
         quantity: item.quantity
       })));
 
-      console.log("Order placed:", response);
-      setSuccess(true);
-      dispatch(clearCart());
-      
+      // If successful, close the modal after a delay
       setTimeout(() => {
         onClose();
         setSuccess(false);
       }, 2500);
     } catch (err: unknown) {
+      console.error("Optimistic checkout failed, rolling back state:", err);
+      // Rollback UI success state
+      setSuccess(false);
+      // Restore cart items in Redux
+      dispatch(setCartFromStorage(savedCartState));
+      // Show error
       setError(err instanceof Error ? err.message : "Failed to place order. Please try again.");
     } finally {
       setIsSubmitting(false);

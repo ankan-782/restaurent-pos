@@ -87,3 +87,39 @@ export function useProductSearch(query: string, params?: { limit?: number; skip?
     gcTime: 5 * 60 * 1000,
   });
 }
+
+export function useInfiniteProductsByCategory(category: string, params?: { limit?: number }) {
+  return useInfiniteQuery({
+    queryKey: ["products", "infinite", "category", category, params],
+    queryFn: async ({ pageParam = 0 }) => {
+      console.log("[FETCH] useInfiniteProductsByCategory:", category, { ...params, skip: pageParam * (params?.limit || 20) });
+      return api.getProductsByCategory(category, { ...params, skip: pageParam * (params?.limit || 20) });
+    },
+    getNextPageParam: (lastPage: ProductsResponse, allPages) => {
+      if (lastPage.products.length < (params?.limit || 20)) return undefined;
+      return allPages.length;
+    },
+    initialPageParam: 0,
+    enabled: !!category,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+  });
+}
+
+export function useInfiniteProductSearch(query: string, params?: { limit?: number }) {
+  return useInfiniteQuery({
+    queryKey: ["products", "infinite", "search", query, params],
+    queryFn: async ({ pageParam = 0 }) => {
+      console.log("[FETCH] useInfiniteProductSearch:", query, { ...params, skip: pageParam * (params?.limit || 20) });
+      return api.searchProducts(query, { ...params, skip: pageParam * (params?.limit || 20) });
+    },
+    getNextPageParam: (lastPage: ProductsResponse, allPages) => {
+      if (lastPage.products.length < (params?.limit || 20)) return undefined;
+      return allPages.length;
+    },
+    initialPageParam: 0,
+    enabled: query.length > 0,
+    staleTime: 2 * 60 * 1000,
+    gcTime: 5 * 60 * 1000,
+  });
+}

@@ -62,7 +62,7 @@
   --color-destructive-foreground: var(--color-on-primary);
   --color-border: var(--color-hairline);
   --color-input: var(--color-hairline);
-  --color-ring: var(--color-primary);
+  --color-ring: #888888;
   --color-sidebar: var(--color-canvas);
   --color-sidebar-foreground: var(--color-ink);
   --color-sidebar-primary: var(--color-primary);
@@ -202,17 +202,17 @@
   }
 
   .input-field {
-    @apply w-full bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-10 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-text;
+    @apply w-full bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-10 placeholder:text-mute transition-colors focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-ring data-[state=open]:ring-1 data-[state=open]:ring-ring data-[state=open]:border-ring disabled:opacity-50 disabled:pointer-events-none cursor-text;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer bg-primary text-white hover:bg-ink/90 h-11 px-sm text-button-md;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer bg-primary text-on-primary hover:opacity-90 h-11 px-sm text-button-md;
   }
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer border border-hairline bg-canvas text-ink hover:bg-canvas-soft h-11 px-sm text-button-md;
   }
   .btn-primary-sm {
-    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer bg-primary text-white hover:bg-ink/90 h-8 px-xs text-button-sm;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer bg-primary text-on-primary hover:opacity-90 h-8 px-xs text-button-sm;
   }
   .btn-secondary-sm {
     @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer border border-hairline bg-canvas text-ink hover:bg-canvas-soft h-8 px-xs text-button-sm;
@@ -227,10 +227,10 @@
   }
 
   .input-field-sm {
-    @apply bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-8 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-text;
+    @apply bg-canvas text-ink border border-hairline text-body-sm rounded-sm px-sm h-8 placeholder:text-mute transition-colors focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-ring data-[state=open]:ring-1 data-[state=open]:ring-ring data-[state=open]:border-ring disabled:opacity-50 disabled:pointer-events-none cursor-text;
   }
   .input-field-lg {
-    @apply bg-canvas text-ink border border-hairline text-body-md rounded-sm px-sm h-12 placeholder:text-mute transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-text;
+    @apply bg-canvas text-ink border border-hairline text-body-md rounded-sm px-sm h-12 placeholder:text-mute transition-colors focus:outline-none focus:ring-1 focus:ring-ring focus:border-ring focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-ring data-[state=open]:ring-1 data-[state=open]:ring-ring data-[state=open]:border-ring disabled:opacity-50 disabled:pointer-events-none cursor-text;
   }
 
   .badge-secondary {
@@ -393,4 +393,34 @@ input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
+}
+
+/* Dark mode variable overrides */
+.dark {
+  --color-primary: #ffffff;
+  --color-on-primary: #0a0a0a;
+  --color-ink: #f5f5f5;
+  --color-body: #a3a3a3;
+  --color-mute: #666666;
+  --color-hairline: #1e1e1e;
+  --color-hairline-strong: #2c2c2c;
+  --color-canvas: #121212;
+  --color-canvas-soft: #080808;
+  --color-canvas-soft-2: #1a1a1a;
+
+  --color-background: var(--color-canvas-soft);
+  --color-foreground: var(--color-ink);
+  --color-card: var(--color-canvas);
+  --color-card-foreground: var(--color-ink);
+  --color-popover: var(--color-canvas);
+  --color-popover-foreground: var(--color-ink);
+  --color-secondary: var(--color-canvas-soft-2);
+  --color-secondary-foreground: var(--color-ink);
+  --color-muted: var(--color-canvas-soft-2);
+  --color-muted-foreground: var(--color-mute);
+  --color-accent: var(--color-canvas-soft-2);
+  --color-accent-foreground: var(--color-ink);
+  --color-border: var(--color-hairline);
+  --color-input: var(--color-canvas-soft-2);
+  --color-ring: #555555;
 }

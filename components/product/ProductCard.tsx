@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import { addItem, updateQuantity, selectItems } from "@/store/cartSlice";
+import { toggleWishlist, selectIsWishlisted } from "@/store/wishlistSlice";
 import type { Product } from "@/types/product";
 import { formatCurrency } from "@/lib/utils";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 
 interface ProductCardProps {
   product: Product | null;
@@ -21,6 +22,7 @@ export function ProductCard({ product, isLoading }: ProductCardProps) {
   const [mounted, setMounted] = useState(false);
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectItems);
+  const isWishlisted = useAppSelector((state) => product ? selectIsWishlisted(state, product.id) : false);
   const isInCart = product ? cartItems.some((item) => item.product.id === product.id) : false;
   const cartQuantity = product ? cartItems.find((item) => item.product.id === product.id)?.quantity || 0 : 0;
   const isOutOfStock = product ? product.stock === 0 : false;
@@ -29,6 +31,14 @@ export function ProductCard({ product, isLoading }: ProductCardProps) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (product) {
+      dispatch(toggleWishlist(product));
+    }
+  };
 
   if (isLoading || !product) {
     return (
@@ -109,6 +119,17 @@ export function ProductCard({ product, isLoading }: ProductCardProps) {
           <span className="absolute top-3 left-3 bg-error text-on-primary text-caption font-medium px-2 py-1 rounded-sm z-10">
             -{discountPercent}%
           </span>
+        )}
+
+        {/* Heart button */}
+        {mounted && (
+          <button
+            onClick={handleToggleWishlist}
+            className="absolute top-3 right-3 p-2 rounded-full backdrop-blur-md bg-canvas/70 border border-hairline z-20 hover:scale-110 active:scale-95 transition-all cursor-pointer"
+            aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            <Heart className={`h-4 w-4 transition-colors ${isWishlisted ? 'fill-error text-error' : 'text-body hover:text-error'}`} />
+          </button>
         )}
       </Link>
 
