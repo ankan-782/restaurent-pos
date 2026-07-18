@@ -21,12 +21,34 @@ export function VirtualizedProductGrid({
   const [scrollY, setScrollY] = useState(0);
   const [viewportHeight, setViewportHeight] = useState(800);
   const [columns, setColumns] = useState(4);
-  const rowHeight = 440; // Estimated height of product card row in pixels
+
+  const [rowHeight, setRowHeight] = useState(480);
+
+  // Measure the actual height of the first product card rendered in the grid
+  useEffect(() => {
+    if (containerRef.current) {
+      const firstCard = containerRef.current.querySelector(".grid > *");
+      if (firstCard) {
+        const height = firstCard.getBoundingClientRect().height;
+        if (height > 0) {
+          // Add grid gap spacing (gap-4 is 16px) to card height
+          setRowHeight(height + 16);
+        }
+      }
+    }
+  }, [products.length > 0, columns]);
 
   // Track window scroll and height
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     const handleResize = () => {
@@ -34,20 +56,22 @@ export function VirtualizedProductGrid({
       
       // Determine columns based on tailwind media query breakpoints
       const width = window.innerWidth;
+      let cols = 4;
       if (width < 640) {
-        setColumns(1);
+        cols = 1;
       } else if (width < 1024) {
-        setColumns(2);
+        cols = 2;
       } else if (width < 1280) {
-        setColumns(3);
-      } else {
-        setColumns(4);
+        cols = 3;
       }
+      setColumns(cols);
     };
 
-    // Initial values
-    handleScroll();
-    handleResize();
+    // Initial values wrapped in requestAnimationFrame to avoid synchronous state updates in mount effect
+    window.requestAnimationFrame(() => {
+      setScrollY(window.scrollY);
+      handleResize();
+    });
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize);
@@ -60,25 +84,37 @@ export function VirtualizedProductGrid({
 
   const [containerTop, setContainerTop] = useState(0);
 
+  // Measure container absolute Y offset relative to the document
+  // Decoupled from scrollY to completely eliminate synchronous scroll layout thrashing
   useEffect(() => {
+    const getAbsoluteOffsetTop = (element: HTMLElement | null): number => {
+      let top = 0;
+      let curr = element;
+      while (curr) {
+        top += curr.offsetTop;
+        curr = curr.offsetParent as HTMLElement | null;
+      }
+      return top;
+    };
+
     if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      setContainerTop(rect.top + window.scrollY);
+      setContainerTop(getAbsoluteOffsetTop(containerRef.current));
     }
-  }, [products, columns, scrollY]);
+  }, [products.length > 0, columns]);
 
   // Compute total rows
   const totalRows = useMemo(() => {
     return Math.ceil(products.length / columns);
   }, [products.length, columns]);
 
-  // Calculate row rendering range
+  // Calculate row rendering range with overscan (buffer) rows
   const { startRow, endRow } = useMemo(() => {
+    const OVERSCAN_ROWS = 3; // Render 3 buffer rows above/below viewport to prevent blank spots
     const relativeScroll = Math.max(0, scrollY - containerTop);
-    const start = Math.max(0, Math.floor(relativeScroll / rowHeight) - 1);
-    const end = Math.min(totalRows, Math.ceil((relativeScroll + viewportHeight) / rowHeight) + 1);
+    const start = Math.max(0, Math.floor(relativeScroll / rowHeight) - OVERSCAN_ROWS);
+    const end = Math.min(totalRows, Math.ceil((relativeScroll + viewportHeight) / rowHeight) + OVERSCAN_ROWS);
     return { startRow: start, endRow: end };
-  }, [scrollY, containerTop, totalRows, viewportHeight]);
+  }, [scrollY, containerTop, totalRows, viewportHeight, rowHeight]);
 
   // Extract visible products
   const visibleProducts = useMemo(() => {
@@ -118,13 +154,15 @@ export function VirtualizedProductGrid({
   }
 
   // Create subgrids of columns to preserve proper responsive styling
-  const gridStyle = {
+  // overflowAnchor: "none" stops browser scroll-anchoring adjustments from causing scrollbar jumps
+  const gridStyle: React.CSSProperties = {
     paddingTop: `${paddingTop}px`,
     paddingBottom: `${paddingBottom}px`,
+    overflowAnchor: "none",
   };
 
   return (
-    <div ref={containerRef} style={gridStyle} className="transition-all duration-200">
+    <div ref={containerRef} style={gridStyle}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {visibleProducts.map((product) => (
           <ProductCard key={product.id} product={product} />

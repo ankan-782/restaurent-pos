@@ -34,6 +34,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/wishlist" className="text-body-sm hover:text-ink transition-colors">
+                  Wishlist
+                </Link>
+              </li>
+              <li>
                 <Link href="/cart" className="text-body-sm hover:text-ink transition-colors">
                   Shopping Cart
                 </Link>

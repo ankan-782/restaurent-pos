@@ -9,6 +9,7 @@ import { formatCurrency } from "@/lib/utils";
 import { X, CheckCircle, Loader2, Shield, Truck } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -121,7 +122,10 @@ export function CheckoutModal({ isOpen, onClose, items: propItems, orderSummary:
               <div className="border border-hairline rounded-lg overflow-hidden bg-canvas-soft">
                 {items.map((item) => (
                   <div key={item.product.id} className="flex items-center gap-3 p-3 border-b border-hairline last:border-0">
-                    <div className="w-12 h-12 flex-shrink-0 overflow-hidden rounded-lg bg-canvas relative">
+                    <Link
+                      href={`/products/${item.product.id}`}
+                      className="w-12 h-12 flex-shrink-0 overflow-hidden rounded-lg bg-canvas relative border border-hairline hover:opacity-80 transition-opacity"
+                    >
                       {item.product.thumbnail ? (
                         <Image
                           src={item.product.thumbnail}
@@ -133,9 +137,13 @@ export function CheckoutModal({ isOpen, onClose, items: propItems, orderSummary:
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-mute text-xs">No Image</div>
                       )}
-                    </div>
+                    </Link>
                     <div className="flex-1 min-w-0">
-                      <p className="text-body-sm font-medium text-ink truncate">{item.product.title}</p>
+                      <Link href={`/products/${item.product.id}`} className="group block">
+                        <p className="text-body-sm font-medium text-ink group-hover:text-primary transition-colors truncate">
+                          {item.product.title}
+                        </p>
+                      </Link>
                       <p className="text-caption text-body">{formatCurrency(item.product.price)} × {item.quantity}</p>
                     </div>
                     <p className="text-body-sm font-medium text-ink w-20 text-right whitespace-nowrap">

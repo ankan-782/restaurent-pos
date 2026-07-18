@@ -116,7 +116,7 @@ export function ProductCard({ product, isLoading }: ProductCardProps) {
 
         {/* Discount Badge */}
         {discountPercent > 0 && (
-          <span className="absolute top-3 left-3 bg-error text-on-primary text-caption font-medium px-2 py-1 rounded-sm z-10">
+          <span className="absolute top-3 left-3 bg-error text-white text-caption font-medium px-2 py-1 rounded-sm z-10">
             -{discountPercent}%
           </span>
         )}

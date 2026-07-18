@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { VirtualizedProductGrid } from "@/components/product/VirtualizedProductGrid";
+import { ProductGrid } from "@/components/product/ProductGrid";
 import { ProductSearch } from "@/components/product/ProductSearch";
 import { Skeleton } from "@/components/ui/Skeleton";
 import {
@@ -63,7 +63,10 @@ function ProductListContent() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") || "";
   const category = searchParams.get("category") || "";
-
+  // Reset scroll to top when category or search query changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [category, searchQuery]);
   // Infinite Scroll queries
   const {
     data: productsData,
@@ -138,7 +141,7 @@ function ProductListContent() {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, !!hasNextPage && !isLoading);
+  }, !!hasNextPage && !isLoading && !isFetchingNextPage);
 
   if (isError) {
     return (
@@ -165,7 +168,7 @@ function ProductListContent() {
 
   return (
     <div className="space-y-6">
-      <VirtualizedProductGrid
+      <ProductGrid
         products={products}
         isLoading={isLoading && products.length === 0}
         isEmpty={products.length === 0 && !isLoading}

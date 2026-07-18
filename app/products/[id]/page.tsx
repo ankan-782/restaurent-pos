@@ -147,7 +147,7 @@ export default function ProductDetailsPage() {
                 </div>
               )}
               {discountPercent > 0 && (
-                <span className="absolute top-4 left-4 bg-error text-on-primary text-caption font-semibold px-2 py-1 rounded-sm">
+                <span className="absolute top-4 left-4 bg-error text-white text-caption font-semibold px-2 py-1 rounded-sm">
                   -{discountPercent}%
                 </span>
               )}
