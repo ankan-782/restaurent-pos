@@ -4,6 +4,7 @@ import { UndoToast } from "@/components/ui/UndoToast";
 import { Providers } from "@/providers/Providers";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -39,18 +40,21 @@ export const viewport: Viewport = {
 	],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const cookieStore = await cookies();
+	const theme = cookieStore.get("theme")?.value === "dark" ? "dark" : "light";
+
 	return (
 		<html
 			lang="en"
-			className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
+			className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${theme === "dark" ? "dark" : ""}`}
 		>
-			<body className="font-sans antialiased bg-background text-foreground flex flex-col transition-colors">
-				<Providers>
+			<body className="font-sans antialiased flex flex-col transition-colors">
+				<Providers initialTheme={theme}>
 					<Header />
 					{children}
 					<Footer />

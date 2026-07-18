@@ -11,38 +11,42 @@ interface ThemeContextProps {
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-	const [theme, setTheme] = useState<Theme>("light");
+export function ThemeProvider({
+	children,
+	initialTheme,
+}: {
+	children: React.ReactNode;
+	initialTheme: Theme;
+}) {
+	const [theme, setTheme] = useState<Theme>(initialTheme);
 
 	useEffect(() => {
-		// Read theme from localStorage or system preference on mount
-		const savedTheme = localStorage.getItem("theme") as Theme | null;
-		const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-			.matches
-			? "dark"
-			: "light";
-		const activeTheme = savedTheme || systemTheme;
-
-		// eslint-disable-next-line react-hooks/set-state-in-effect
-		setTheme(activeTheme);
-
-		if (activeTheme === "dark") {
-			document.documentElement.classList.add("dark");
-		} else {
-			document.documentElement.classList.remove("dark");
+		// Only fires for a brand-new visitor with no theme cookie yet —
+		// syncs to their system preference and stores it for next time.
+		const hasCookie = document.cookie.includes("theme=");
+		if (!hasCookie) {
+			const systemTheme = window.matchMedia(
+				"(prefers-color-scheme: dark)",
+			).matches
+				? "dark"
+				: "light";
+			if (systemTheme !== theme) {
+				// eslint-disable-next-line react-hooks/set-state-in-effect
+				setTheme(systemTheme);
+				document.documentElement.classList.toggle(
+					"dark",
+					systemTheme === "dark",
+				);
+			}
+			document.cookie = `theme=${systemTheme}; path=/; max-age=31536000`;
 		}
 	}, []);
 
 	const toggleTheme = () => {
 		const nextTheme = theme === "light" ? "dark" : "light";
 		setTheme(nextTheme);
-		localStorage.setItem("theme", nextTheme);
-
-		if (nextTheme === "dark") {
-			document.documentElement.classList.add("dark");
-		} else {
-			document.documentElement.classList.remove("dark");
-		}
+		document.cookie = `theme=${nextTheme}; path=/; max-age=31536000`;
+		document.documentElement.classList.toggle("dark", nextTheme === "dark");
 	};
 
 	return (

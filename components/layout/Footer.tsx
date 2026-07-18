@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export function Footer() {
 	return (
-		<footer className="border-t border-hairline bg-canvas text-body mt-16">
-			<div className="max-w-7xl mx-auto px-sm lg:px-lg py-12 lg:py-16">
+		<footer className="border-t border-hairline bg-canvas text-body">
+			<div className="max-w-7xl mx-auto px-sm lg:px-lg py-12">
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
 					{/* Column 1: Brand */}
 					<div className="space-y-4 md:col-span-2 lg:col-span-2">
@@ -15,7 +15,7 @@ export function Footer() {
 						>
 							<div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
 								<svg
-									className="w-5 h-5 text-on-primary"
+									className="w-6 h-6 text-on-primary"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -41,7 +41,7 @@ export function Footer() {
 					</div>
 
 					{/* Column 2: Navigation */}
-					<div>
+					<nav>
 						<h4 className="text-caption-mono text-mute uppercase font-semibold tracking-wider mb-4">
 							Navigation
 						</h4>
@@ -71,7 +71,7 @@ export function Footer() {
 								</Link>
 							</li>
 						</ul>
-					</div>
+					</nav>
 
 					{/* Column 3: Tech Stack */}
 					<div>

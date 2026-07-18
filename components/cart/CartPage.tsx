@@ -34,6 +34,7 @@ export function CartPage() {
 		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setMounted(true);
 	}, []);
+    
 	const orderSummary = useAppSelector(selectOrderSummary);
 	const appliedCoupon = useAppSelector(selectAppliedCoupon);
 	const [couponInput, setCouponInput] = useState("");

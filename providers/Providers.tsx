@@ -6,9 +6,15 @@ import { QueryProvider } from "./QueryProvider";
 import { ReduxProvider } from "./ReduxProvider";
 import { ThemeProvider } from "./ThemeProvider";
 
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({
+	children,
+	initialTheme,
+}: {
+	children: ReactNode;
+	initialTheme: "light" | "dark";
+}) {
 	return (
-		<ThemeProvider>
+		<ThemeProvider initialTheme={initialTheme}>
 			<QueryProvider>
 				<ReduxProvider>
 					<ToastProvider>{children}</ToastProvider>

@@ -52,7 +52,7 @@ export default function WishlistPage() {
 				</div>
 			) : wishlistItems.length === 0 ? (
 				<div className="min-h-[50vh] flex items-center justify-center px-sm">
-					<div className="w-full max-w-[28rem] bg-canvas border border-hairline rounded-xl p-8 flex flex-col items-center text-center shadow-level-3">
+					<div className="w-full max-w-112 bg-canvas border border-hairline rounded-xl p-8 flex flex-col items-center text-center shadow-level-3">
 						<div className="w-20 h-20 rounded-full bg-canvas-soft border border-hairline flex items-center justify-center mb-6 animate-fade-in">
 							<Heart className="w-10 h-10 text-mute" />
 						</div>

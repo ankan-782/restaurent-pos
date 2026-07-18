@@ -52,7 +52,7 @@ export function Header() {
 
 	return (
 		<>
-			<header className="nav-bar border-b border-hairline sticky top-0 z-50 bg-canvas/95 backdrop-blur supports-[backdrop-filter]:bg-canvas/80 transition-colors">
+			<header className="nav-bar border-b border-hairline sticky top-0 z-50 bg-canvas/95 backdrop-blur supports-backdrop-filter:bg-canvas/80 transition-colors">
 				<div className="max-w-7xl mx-auto px-sm lg:px-lg h-16 flex items-center justify-between">
 					<Link
 						href="/"
@@ -60,7 +60,7 @@ export function Header() {
 					>
 						<div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center transition-colors">
 							<svg
-								className="w-5 h-5 text-on-primary"
+								className="w-6 h-6 text-on-primary"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"

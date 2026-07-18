@@ -7,27 +7,17 @@ import {
 	undoRemove,
 } from "@/store/cartSlice";
 import { Undo2, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export function UndoToast() {
 	const dispatch = useAppDispatch();
 	const lastRemovedItem = useAppSelector(selectLastRemovedItem);
-	const [mounted, setMounted] = useState(false);
-
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			setMounted(true);
-		}, 0);
-		return () => clearTimeout(timer);
-	}, []);
 
 	useEffect(() => {
 		if (lastRemovedItem) {
-			// Auto-dismiss after 5 seconds
 			const timer = setTimeout(() => {
 				dispatch(clearLastRemovedItem());
 			}, 5000);
-
 			return () => clearTimeout(timer);
 		}
 	}, [lastRemovedItem, dispatch]);
@@ -40,7 +30,7 @@ export function UndoToast() {
 		dispatch(clearLastRemovedItem());
 	};
 
-	if (!mounted || !lastRemovedItem) return null;
+	if (!lastRemovedItem) return null;
 
 	return (
 		<div className="fixed bottom-5 right-5 z-50 flex items-center justify-between gap-4 bg-canvas text-ink px-4 py-3 rounded-lg shadow-level-4 animate-slide-up border border-hairline w-full max-w-96">
