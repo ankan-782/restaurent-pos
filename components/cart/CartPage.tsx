@@ -200,12 +200,14 @@ export function CartPage() {
 									Apply
 								</Button>
 							</div>
+
 							{couponError && (
 								<p className="text-error text-body-sm mt-3 flex items-center gap-1">
 									<X className="h-4 w-4" />
 									{couponError}
 								</p>
 							)}
+
 							{appliedCoupon && (
 								<div className="mt-4 p-4 bg-canvas-soft rounded-lg border border-hairline">
 									<div className="flex items-center justify-between">
@@ -246,7 +248,7 @@ export function CartPage() {
 					<div className="lg:col-span-1">
 						{/* Order Summary Card */}
 						<div className="sticky top-24 bg-canvas rounded-xl border border-hairline p-6 space-y-5">
-							<div className="flex items-center gap-3 mb-2">
+							<div className="flex items-center gap-3 mb-4">
 								<Shield className="h-5 w-5 text-primary" />
 								<h3 className="text-body-lg font-semibold text-ink">
 									Order Summary
@@ -384,16 +386,16 @@ function CartItem({
 
 				{/* Product Info */}
 				<div className="flex-1 min-w-0">
-					<div className="flex justify-between mb-1">
+					<div className="flex justify-between items-start gap-4 mb-1">
 						<Link
 							href={`/products/${product.id}`}
-							className="truncate pr-2"
+							className="block"
 						>
-							<h4 className="text-body-md font-medium text-ink truncate">
+							<h4 className="text-body-md font-medium text-ink line-clamp-1">
 								{product.title}
 							</h4>
 						</Link>
-						<span className="text-body-md font-semibold text-ink whitespace-nowrap">
+						<span className="block text-body-md font-semibold text-ink whitespace-nowrap shrink-0">
 							{formatCurrency(lineTotal)}
 						</span>
 					</div>
