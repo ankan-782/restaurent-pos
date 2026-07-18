@@ -11,7 +11,6 @@ This project is a premium, high-performance **Restaurant Point of Sale (POS) - N
 - **Shopping Cart (`/cart`)**: Complete cart list, quantity manager, line items totals, dynamic order summary, coupons module, and checkout options.
 - **Wishlist (`/wishlist`)**: Manage bookmarked products, view stock availability, and add items directly to the shopping cart.
 
-
 ---
 
 ## 🛠️ Technology Stack
@@ -25,7 +24,6 @@ This project is a premium, high-performance **Restaurant Point of Sale (POS) - N
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **HTTP Client**: Native Fetch API with custom typed wrapper
 - **Testing**: [Vitest](https://vitest.dev/) & [React Testing Library](https://testing-library.com/) (JSDOM environment)
-
 
 ---
 
@@ -69,12 +67,12 @@ To provide a premium and professional user experience, the following optional fe
 
 1. **Wishlist Module (`/wishlist`)**: Bookmarking system allowing users to save items for future orders. Items are saved in Redux persisted state, display live stock indicators, and support single-click add-to-cart.
 2. **Keyboard Shortcuts**: Built-in hotkeys enabling keyboard-only navigation and faster operations:
-   - `S` or `/`: Focus the product search input.
-   - `C`: Route instantly to the Shopping Cart.
-   - `H`: Route back to the main Products Grid.
-   - `W`: Route instantly to the Wishlist.
-   - `?`: Toggle the interactive Keyboard Shortcuts list modal.
-   - `Esc`: Close open modal overlays (such as Checkout or Keyboard Shortcuts) and dismiss toasts.
+    - `S` or `/`: Focus the product search input.
+    - `C`: Route instantly to the Shopping Cart.
+    - `H`: Route back to the main Products Grid.
+    - `W`: Route instantly to the Wishlist.
+    - `?`: Toggle the interactive Keyboard Shortcuts list modal.
+    - `Esc`: Close open modal overlays (such as Checkout or Keyboard Shortcuts) and dismiss toasts.
 3. **Infinite Scroll**: Automatically fetches the next page of products when scrolling to the bottom of the catalog. The trigger mechanism is throttled and debounced to prevent rapid, consecutive API calls.
 4. **Undo Remove Toast**: Removing a line item from the shopping cart triggers an overlay toast with a countdown and an "Undo" action, letting the user restore the item with its exact original quantity.
 5. **Automated Unit Tests**: Vitest suite covering core application logic such as cart management, VAT calculations, and coupon eligibility validation.
@@ -130,7 +128,6 @@ Run the Vitest test suite to execute the unit tests:
 npm run test
 ```
 
-
 ---
 
 ## 🧪 Testing and Verification
@@ -146,4 +143,3 @@ To verify the POS functionality, you can run through these core test cases:
 7. **Wishlist**: Click the heart button on a product card or product details page to add it to your Wishlist. Navigate to `/wishlist` to confirm it is saved. Add it directly to the cart from there.
 8. **Keyboard Shortcuts**: Press `?` (when not typing in an input field) to toggle the shortcut guide overlay. Press `C` to go to the cart, `W` to go to the wishlist, and `H` to return home.
 9. **Scroll to Top**: Scroll down the products grid or other long pages; a minimalist scroll-to-top button will appear in the bottom-right corner. Clicking it smoothly scrolls the page back to the top.
-
