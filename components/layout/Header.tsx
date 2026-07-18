@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/hooks/useRedux";
 import { selectItemCount } from "@/store/cartSlice";
 import { selectWishlistItems } from "@/store/wishlistSlice";
 import { useTheme } from "@/providers/ThemeProvider";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { ShortcutsModal } from "@/components/ui/ShortcutsModal";
+import { cn } from "@/lib/utils";
 import { ShoppingCart, Heart, Sun, Moon, Keyboard } from "lucide-react";
 
 export function Header() {
@@ -17,6 +19,11 @@ export function Header() {
   const itemCount = useAppSelector(selectItemCount);
   const wishlistItems = useAppSelector(selectWishlistItems);
   const { theme, toggleTheme } = useTheme();
+  const pathname = usePathname();
+
+  const isProductsActive = pathname === "/" || pathname?.startsWith("/products");
+  const isWishlistActive = pathname === "/wishlist";
+  const isCartActive = pathname === "/cart";
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -56,7 +63,13 @@ export function Header() {
           <nav className="flex items-center gap-1.5 sm:gap-2">
             <Link 
               href="/" 
-              className="px-3 py-2 rounded-full text-sm font-medium text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer"
+              className={cn(
+                "px-3 py-2 rounded-full text-sm font-medium transition-all cursor-pointer",
+                isProductsActive 
+                  ? "bg-canvas-soft-2 text-ink" 
+                  : "text-body hover:text-ink hover:bg-canvas-soft-2"
+              )}
+              aria-current={isProductsActive ? "page" : undefined}
             >
               Products
             </Link>
@@ -64,7 +77,13 @@ export function Header() {
             {/* Wishlist Link */}
             <Link 
               href="/wishlist" 
-              className="relative px-3 py-2 rounded-full text-sm font-medium text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer flex items-center gap-1.5"
+              className={cn(
+                "relative px-3 py-2 rounded-full text-sm font-medium transition-all cursor-pointer flex items-center gap-1.5",
+                isWishlistActive 
+                  ? "bg-canvas-soft-2 text-ink" 
+                  : "text-body hover:text-ink hover:bg-canvas-soft-2"
+              )}
+              aria-current={isWishlistActive ? "page" : undefined}
             >
               <Heart className="h-4 w-4" />
               <span className="hidden sm:inline">Wishlist</span>
@@ -78,12 +97,18 @@ export function Header() {
             {/* Cart Link */}
             <Link 
               href="/cart" 
-              className="relative pl-3 pr-6.5 py-2 rounded-full text-sm font-medium text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer flex items-center gap-1.5"
+              className={cn(
+                "relative px-3 py-2 rounded-full text-sm font-medium transition-all cursor-pointer flex items-center gap-1.5",
+                isCartActive 
+                  ? "bg-canvas-soft-2 text-ink" 
+                  : "text-body hover:text-ink hover:bg-canvas-soft-2"
+              )}
+              aria-current={isCartActive ? "page" : undefined}
             >
               <ShoppingCart className="h-4 w-4" />
               <span className="hidden sm:inline">Cart</span>
               {mounted && itemCount > 0 && (
-                <span className="absolute -top-0.5 right-1 w-5 h-5 rounded-full bg-primary text-on-primary text-xs font-semibold flex items-center justify-center transition-colors">
+                <span className="w-4.5 h-4.5 rounded-full bg-error text-white text-[10px] font-bold flex items-center justify-center animate-scale-in">
                   {itemCount > 99 ? '99+' : itemCount}
                 </span>
               )}

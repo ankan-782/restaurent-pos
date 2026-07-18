@@ -5,6 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface CartItemProps {
   item: {
@@ -42,7 +43,11 @@ export function CartItem({ item }: CartItemProps) {
 
   return (
     <div className="flex items-center gap-4 p-4 bg-canvas rounded-md border border-hairline">
-      <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-sm bg-canvas-soft">
+      {/* Product Image - Clickable Link */}
+      <Link 
+        href={`/products/${product.id}`}
+        className="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-sm bg-canvas-soft border border-hairline block hover:opacity-90 transition-opacity"
+      >
         {product.thumbnail ? (
           <Image
             src={product.thumbnail}
@@ -56,10 +61,12 @@ export function CartItem({ item }: CartItemProps) {
             No Image
           </div>
         )}
-      </div>
+      </Link>
 
       <div className="flex-1 min-w-0">
-        <h4 className="text-body-md font-medium text-ink truncate">{product.title}</h4>
+        <Link href={`/products/${product.id}`}>
+          <h4 className="text-body-md font-medium text-ink truncate">{product.title}</h4>
+        </Link>
         <p className="text-body-sm text-body mt-1">{product.category}</p>
         <p className="text-body-sm font-medium text-ink mt-1">
           {formatCurrency(product.price)} each

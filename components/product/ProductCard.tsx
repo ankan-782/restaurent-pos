@@ -88,7 +88,7 @@ export function ProductCard({ product, isLoading }: ProductCardProps) {
   const discountPercent = product.discountPercentage > 0 ? Math.round(product.discountPercentage) : 0;
 
   return (
-    <Card className="flex flex-col h-full transition-all duration-200 hover:shadow-level-4 hover:-translate-y-0.5 group overflow-hidden">
+    <Card className="flex flex-col h-full transition-all duration-200 hover:shadow-level-4 hover:-translate-y-0.5 group overflow-hidden border border-hairline">
       {/* Product Image - Clickable Link */}
       <Link href={`/products/${product.id}`} className="block relative aspect-square overflow-hidden bg-canvas-soft w-full">
         {product.thumbnail ? (

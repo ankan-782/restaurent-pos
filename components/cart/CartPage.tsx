@@ -294,27 +294,34 @@ function CartItem({ item }: { item: { product: { id: number; title: string; pric
   return (
     <div className="bg-canvas rounded-xl border border-hairline p-4">
       <div className="flex gap-4">
-        {/* Product Image */}
-        <div className="relative w-20 h-20 flex-shrink-0">
+        {/* Product Image - Clickable Link */}
+        <Link 
+          href={`/products/${product.id}`}
+          className="relative w-20 h-20 flex-shrink-0 border border-hairline rounded-lg overflow-hidden block hover:opacity-90 transition-opacity bg-canvas-soft"
+        >
           {product.thumbnail ? (
             <Image
               src={product.thumbnail}
               alt={product.title}
               fill
-              className="object-cover rounded-lg"
+              className="object-cover"
               sizes="80px"
             />
           ) : (
-            <div className="w-full h-full bg-canvas-soft flex items-center justify-center rounded-lg text-body">
+            <div className="w-full h-full flex items-center justify-center text-body text-xs">
               No Image
             </div>
           )}
-        </div>
+        </Link>
 
         {/* Product Info */}
         <div className="flex-1 min-w-0">
           <div className="flex justify-between mb-1">
-            <h4 className="text-body-md font-medium text-ink truncate pr-2">{product.title}</h4>
+            <Link href={`/products/${product.id}`} className="truncate pr-2">
+              <h4 className="text-body-md font-medium text-ink truncate">
+                {product.title}
+              </h4>
+            </Link>
             <span className="text-body-md font-semibold text-ink whitespace-nowrap">{formatCurrency(lineTotal)}</span>
           </div>
           <p className="text-caption text-body mb-2">{product.category}</p>

@@ -122,7 +122,7 @@ export default function ProductDetailsPage() {
         {/* Back navigation */}
         <button
           onClick={() => router.back()}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-body hover:text-ink hover:bg-canvas-soft-2 transition-all cursor-pointer mb-6 -ml-4"
+          className="btn-secondary inline-flex items-center gap-2 h-10 px-4 text-sm cursor-pointer mb-6"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to list

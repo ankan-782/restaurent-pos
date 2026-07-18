@@ -1,31 +1,47 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAppSelector } from "@/hooks/useRedux";
-import { selectWishlistItems } from "@/store/wishlistSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
+import { selectWishlistItems, clearWishlist } from "@/store/wishlistSlice";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ProductCard } from "@/components/product/ProductCard";
-import { Heart } from "lucide-react";
+import { Heart, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 export default function WishlistPage() {
   const [mounted, setMounted] = useState(false);
   const wishlistItems = useAppSelector(selectWishlistItems);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
+  const handleClearWishlist = () => {
+    dispatch(clearWishlist());
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col transition-colors">
       <Header />
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-sm lg:px-lg py-8">
-        <div className="mb-8">
-          <h1 className="text-display-lg font-semibold text-ink tracking-tight mb-2">My Wishlist</h1>
-          <p className="text-body text-body-md">Bookmark your favorite items to add them to orders later</p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-display-lg font-semibold text-ink tracking-tight mb-2">My Wishlist</h1>
+            <p className="text-body text-body-md">Bookmark your favorite items to add them to orders later</p>
+          </div>
+          {mounted && wishlistItems.length > 0 && (
+            <button
+              onClick={handleClearWishlist}
+              className="btn-secondary self-start sm:self-center h-10 px-4 text-sm inline-flex items-center gap-2 cursor-pointer"
+            >
+              <Trash2 className="h-4 w-4" />
+              Clear Wishlist
+            </button>
+          )}
         </div>
 
         {!mounted ? (
