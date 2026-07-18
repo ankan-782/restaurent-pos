@@ -104,7 +104,7 @@ export function CartPage() {
 		<div className="w-full">
 			{/* Header */}
 			<div className="mb-8">
-				<div className="flex items-center justify-between mb-4">
+				<div className="flex flex-col items-start gap-4 mb-4">
 					<div>
 						<h1 className="text-display-lg font-semibold text-ink tracking-tight mb-2">
 							Shopping Cart
@@ -114,7 +114,7 @@ export function CartPage() {
 						</p>
 					</div>
 					{!isEmpty && (
-						<div className="hidden md:flex items-center gap-4 text-sm text-body">
+						<div className="flex items-center gap-4 text-sm text-body">
 							<span className="flex items-center gap-1">
 								<Tag className="h-4 w-4" />
 								{items.reduce(
