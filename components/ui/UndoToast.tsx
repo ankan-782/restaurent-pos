@@ -33,7 +33,7 @@ export function UndoToast() {
 	if (!lastRemovedItem) return null;
 
 	return (
-		<div className="fixed bottom-5 right-5 z-50 flex items-center justify-between gap-4 bg-canvas text-ink px-4 py-3 rounded-lg shadow-level-4 animate-slide-up border border-hairline w-full max-w-96">
+		<div className="fixed bottom-5 left-5 right-5 sm:left-auto z-50 flex items-center justify-between gap-4 bg-canvas text-ink px-4 py-3 rounded-lg shadow-level-4 animate-slide-up border border-hairline w-auto max-w-96">
 			<div className="flex-1 min-w-0">
 				<p className="text-body-sm-strong font-medium truncate">
 					Removed {lastRemovedItem.product.title}

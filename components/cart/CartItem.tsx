@@ -69,8 +69,8 @@ export function CartItem({ item }: CartItemProps) {
 				)}
 			</Link>
 
-			<div className="flex-1 min-w-0">
-				<Link href={`/products/${product.id}`}>
+			<div className="flex-1">
+				<Link href={`/products/${product.id}`} className="block">
 					<h4 className="text-body-md font-medium text-ink truncate">
 						{product.title}
 					</h4>
