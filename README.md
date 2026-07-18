@@ -9,6 +9,8 @@ This project is a premium, high-performance **Restaurant Point of Sale (POS) - N
 - **Home / Products Grid (`/`)**: Discover items, search with debouncing, select categories, and manage cart items directly.
 - **Product Details (`/products/[id]`)**: Full specifications, brand, rating star indicators, review comments carousel, and active stock indicators.
 - **Shopping Cart (`/cart`)**: Complete cart list, quantity manager, line items totals, dynamic order summary, coupons module, and checkout options.
+- **Wishlist (`/wishlist`)**: Manage bookmarked products, view stock availability, and add items directly to the shopping cart.
+
 
 ---
 
@@ -22,6 +24,8 @@ This project is a premium, high-performance **Restaurant Point of Sale (POS) - N
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) & [Vanilla CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) (based on `DESIGN.md`)
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **HTTP Client**: Native Fetch API with custom typed wrapper
+- **Testing**: [Vitest](https://vitest.dev/) & [React Testing Library](https://testing-library.com/) (JSDOM environment)
+
 
 ---
 
@@ -56,6 +60,25 @@ The user interface follows the core specifications detailed in `DESIGN.md`:
 - **Interactive States**: Smooth scaling transitions (`duration-200`) and stacked box shadows (Level 1 to Level 5) to reflect page elevation.
 - **Global Pointers**: Forced pointer hands on buttons, link tags, selects, and summary toggles to elevate desktop interactivity.
 - **Hydration Guards**: Client hydration protections implemented on cart counters and persistent elements to prevent Server-Client mismatches.
+
+---
+
+## ✨ Bonus Features Implemented
+
+To provide a premium and professional user experience, the following optional features from the assessment criteria are implemented:
+
+1. **Wishlist Module (`/wishlist`)**: Bookmarking system allowing users to save items for future orders. Items are saved in Redux persisted state, display live stock indicators, and support single-click add-to-cart.
+2. **Keyboard Shortcuts**: Built-in hotkeys enabling keyboard-only navigation and faster operations:
+   - `S` or `/`: Focus the product search input.
+   - `C`: Route instantly to the Shopping Cart.
+   - `H`: Route back to the main Products Grid.
+   - `W`: Route instantly to the Wishlist.
+   - `?`: Toggle the interactive Keyboard Shortcuts list modal.
+   - `Esc`: Close open modal overlays (such as Checkout or Keyboard Shortcuts) and dismiss toasts.
+3. **Infinite Scroll**: Automatically fetches the next page of products when scrolling to the bottom of the catalog. The trigger mechanism is throttled and debounced to prevent rapid, consecutive API calls.
+4. **Undo Remove Toast**: Removing a line item from the shopping cart triggers an overlay toast with a countdown and an "Undo" action, letting the user restore the item with its exact original quantity.
+5. **Automated Unit Tests**: Vitest suite covering core application logic such as cart management, VAT calculations, and coupon eligibility validation.
+
 
 ---
 
@@ -99,6 +122,15 @@ Create an optimized production bundle:
 npm run build
 ```
 
+### Running Automated Tests
+
+Run the Vitest test suite to execute the unit tests:
+
+```bash
+npm run test
+```
+
+
 ---
 
 ## 🧪 Testing and Verification
@@ -111,3 +143,6 @@ To verify the POS functionality, you can run through these core test cases:
 4. **Detail Page**: Click a product title to open `/products/[id]`. Confirm you can switch images, check customer reviews, and alter cart quantity.
 5. **Coupons**: Navigate to `/cart`. Try adding `SAVE20` (reflects 20% discount). Try adding `WELCOME` with an order less than $20 (shows error banner), then add more items and verify it applies.
 6. **Checkout**: Click "Proceed to Checkout" in the cart. Confirm the modal details, click "Place Order", and watch the cart reset upon successful completion.
+7. **Wishlist**: Click the heart button on a product card or product details page to add it to your Wishlist. Navigate to `/wishlist` to confirm it is saved. Add it directly to the cart from there.
+8. **Keyboard Shortcuts**: Press `?` (when not typing in an input field) to toggle the shortcut guide overlay. Press `C` to go to the cart, `W` to go to the wishlist, and `H` to return home.
+
