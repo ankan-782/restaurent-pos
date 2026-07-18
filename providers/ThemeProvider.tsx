@@ -30,14 +30,12 @@ export function ThemeProvider({
 			).matches
 				? "dark"
 				: "light";
-			if (systemTheme !== theme) {
-				// eslint-disable-next-line react-hooks/set-state-in-effect
-				setTheme(systemTheme);
-				document.documentElement.classList.toggle(
-					"dark",
-					systemTheme === "dark",
-				);
-			}
+			// eslint-disable-next-line react-hooks/set-state-in-effect
+			setTheme(systemTheme);
+			document.documentElement.classList.toggle(
+				"dark",
+				systemTheme === "dark",
+			);
 			document.cookie = `theme=${systemTheme}; path=/; max-age=31536000`;
 		}
 	}, []);

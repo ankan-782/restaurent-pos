@@ -7,7 +7,7 @@ import type {
 } from "@/types/cart";
 import { COUPONS } from "@/types/cart";
 import type { Product } from "@/types/product";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 
 const initialState: CartState = {
 	items: [],
@@ -148,8 +148,6 @@ const cartSlice = createSlice({
 			),
 		selectAppliedCoupon: (state) => state.appliedCoupon,
 		selectDiscountAmount: (state) => state.discountAmount,
-		selectOrderSummary: (state) =>
-			calculateOrderSummary(state.items, state.appliedCoupon),
 		selectIsEmpty: (state) => state.items.length === 0,
 		selectLastRemovedItem: (state) => state.lastRemovedItem,
 	},
@@ -173,9 +171,13 @@ export const {
 	selectSubtotal,
 	selectAppliedCoupon,
 	selectDiscountAmount,
-	selectOrderSummary,
 	selectIsEmpty,
 	selectLastRemovedItem,
 } = cartSlice.selectors;
+
+export const selectOrderSummary = createSelector(
+	[selectItems, selectAppliedCoupon],
+	(items, appliedCoupon) => calculateOrderSummary(items, appliedCoupon),
+);
 
 export default cartSlice.reducer;

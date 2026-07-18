@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { ScrollToTopButton } from "@/components/ui/ScrollToTopButton";
 import { UndoToast } from "@/components/ui/UndoToast";
 import { Providers } from "@/providers/Providers";
 import type { Metadata, Viewport } from "next";
@@ -58,6 +59,7 @@ export default async function RootLayout({
 					<Header />
 					{children}
 					<Footer />
+					<ScrollToTopButton />
 					<UndoToast />
 				</Providers>
 			</body>
