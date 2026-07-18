@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
 import { UndoToast } from "@/components/ui/UndoToast";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-sans",
@@ -46,7 +48,11 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         <Providers>
-          {children}
+          <div className="min-h-screen bg-background flex flex-col transition-colors">
+            <Header />
+            {children}
+            <Footer />
+          </div>
           <UndoToast />
         </Providers>
       </body>

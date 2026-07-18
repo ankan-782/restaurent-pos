@@ -12,8 +12,6 @@ import {
   useInfiniteProductsByCategory,
 } from "@/hooks/useProducts";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
 
 interface Category {
   slug: string;
@@ -187,27 +185,21 @@ function ProductListContent() {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col transition-colors">
-      <Header />
-      
-      <main className="flex-1 max-w-7xl mx-auto w-full px-sm lg:px-lg py-8">
-        <div className="mb-8">
-          <h1 className="text-display-lg font-semibold text-ink tracking-tight mb-2">New Order</h1>
-          <p className="text-body text-body-md">Select products to add to the order</p>
-        </div>
+    <main className="flex-1 max-w-7xl mx-auto w-full px-sm lg:px-lg py-8">
+      <div className="mb-8">
+        <h1 className="text-display-lg font-semibold text-ink tracking-tight mb-2">New Order</h1>
+        <p className="text-body text-body-md">Select products to add to the order</p>
+      </div>
 
-        <Suspense fallback={<CategoriesFilterSkeleton />}>
-          <CategoriesFilter />
+      <Suspense fallback={<CategoriesFilterSkeleton />}>
+        <CategoriesFilter />
+      </Suspense>
+
+      <div className="mt-6">
+        <Suspense fallback={<ProductGridSkeleton />}>
+          <ProductListContent />
         </Suspense>
-
-        <div className="mt-6">
-          <Suspense fallback={<ProductGridSkeleton />}>
-            <ProductListContent />
-          </Suspense>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </main>
   );
 }

@@ -115,10 +115,7 @@ export default function ProductDetailsPage() {
   const discountPercent = product.discountPercentage > 0 ? Math.round(product.discountPercentage) : 0;
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Header />
-
-      <main className="flex-1 max-w-7xl mx-auto w-full px-sm lg:px-lg py-8">
+    <main className="flex-1 max-w-7xl mx-auto w-full px-sm lg:px-lg py-8">
         {/* Back navigation */}
         <button
           onClick={() => router.back()}
@@ -348,8 +345,5 @@ export default function ProductDetailsPage() {
           </div>
         )}
       </main>
-
-      <Footer />
-    </div>
   );
 }
