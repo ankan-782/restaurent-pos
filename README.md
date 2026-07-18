@@ -78,7 +78,7 @@ To provide a premium and professional user experience, the following optional fe
 3. **Infinite Scroll**: Automatically fetches the next page of products when scrolling to the bottom of the catalog. The trigger mechanism is throttled and debounced to prevent rapid, consecutive API calls.
 4. **Undo Remove Toast**: Removing a line item from the shopping cart triggers an overlay toast with a countdown and an "Undo" action, letting the user restore the item with its exact original quantity.
 5. **Automated Unit Tests**: Vitest suite covering core application logic such as cart management, VAT calculations, and coupon eligibility validation.
-
+6. **Scroll to Top Button**: A smooth, elegant scroll-to-top button that fades in dynamically after the user scrolls down, styled to fit the clean, premium design system.
 
 ---
 
@@ -145,4 +145,5 @@ To verify the POS functionality, you can run through these core test cases:
 6. **Checkout**: Click "Proceed to Checkout" in the cart. Confirm the modal details, click "Place Order", and watch the cart reset upon successful completion.
 7. **Wishlist**: Click the heart button on a product card or product details page to add it to your Wishlist. Navigate to `/wishlist` to confirm it is saved. Add it directly to the cart from there.
 8. **Keyboard Shortcuts**: Press `?` (when not typing in an input field) to toggle the shortcut guide overlay. Press `C` to go to the cart, `W` to go to the wishlist, and `H` to return home.
+9. **Scroll to Top**: Scroll down the products grid or other long pages; a minimalist scroll-to-top button will appear in the bottom-right corner. Clicking it smoothly scrolls the page back to the top.
 
